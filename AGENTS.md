@@ -1,68 +1,47 @@
-# Agent Protocol
+# Multi-agent protocol
 
-This repository uses a JSON-first multi-agent protocol. Agents must not pass the full manuscript to each other. Each agent writes a compact JSON state file and downstream agents consume only the state files they need.
+This repository implements a JSON-first multi-agent audit protocol. Each agent receives a narrow packet and writes a deterministic output packet. This reduces token usage and prevents each agent from reinterpreting the whole manuscript.
 
-## Mandatory state order
+## Agent order
 
-```text
-01_inventory_agent            -> state/01_inventory.json
-context_pack_agent            -> state/draft_map.json
-                              -> state/selected_context.json
-                              -> state/evidence_pack.json
-02_number_ledger_agent        -> state/02_number_ledger.json
-03_claim_ledger_agent         -> state/03_claim_ledger.json
-04_source_data_ledger_agent   -> state/04_source_data_ledger.json
-05_descriptor_database_agent  -> state/05_descriptor_audit.json
-06_figure_text_agent          -> state/06_figure_manifest.json
-08_consistency_agent          -> state/08_findings.json
-09_conflict_gate_agent        -> state/09_conflict_gate.json
-10_report_writer_agent        -> audit_report.md
-```
+| Step | Agent | Reads | Writes |
+|---|---|---|---|
+| 01 | Inventory Agent | manuscript, figure manifest, source-data directory, database path | `state/01_inventory.json` |
+| 02 | Context Pack Agent | `01_inventory.json`, manuscript | `draft_map.json`, `selected_context.json`, `evidence_pack.json` |
+| 03 | Claim Ledger Agent | `selected_context.json`, `evidence_pack.json` | `03_claim_ledger.json` |
+| 04 | Source Data Ledger Agent | `evidence_pack.json`, `figures_manifest.json`, source-data directory | `04_source_data_ledger.json` |
+| 05 | Descriptor Database Audit Agent | descriptor database, `evidence_pack.json` | `05_descriptor_audit.json` |
+| 06 | Figure–Text Consistency Agent | `03_claim_ledger.json`, source-data files, `04_source_data_ledger.json` | `06_figure_text_audit.json` |
+| 07 | Conflict Gate Agent | all P0/P1 findings | `07_conflict_gate.json` |
+| 08 | Report Writer Agent | all ledgers | `audit_report.md`, CSV outputs |
 
-## Agent boundaries
+## Conflict Gate rule
 
-- Inventory Agent handles files and hashes only.
-- Context Pack Agent handles token-saving manuscript maps only.
-- Number Ledger Agent handles numeric drift and reference number conflicts.
-- Claim Ledger Agent handles wording, evidence need, and causal overreach.
-- Source Data Ledger Agent handles figure-to-source-data availability.
-- Descriptor Database Agent handles materials descriptor columns and value plausibility.
-- Figure–Text Agent extracts quantitative source-data summaries and key figure values.
-- Consistency Agent merges state and creates P0/P1/P2 findings.
-- Conflict Gate Agent reviews high-risk findings with advocate / skeptic / arbiter structure.
-- Report Writer Agent summarizes findings and readiness only; it must not invent new evidence.
+Any finding that meets one of the following conditions must enter Conflict Gate:
 
-## Conflict Gate rules
+- P0 severity;
+- P1 severity with direct effect on a main conclusion;
+- figure-text direction contradiction;
+- source data missing for a quantitative main figure;
+- descriptor value physically impossible or suspicious enough to change interpretation;
+- number conflict across manuscript, SI, figures, and database.
 
-A finding must enter the Conflict Gate when any of the following occurs:
-
-- severity is P0;
-- severity is P1 and category is claim strength, figure-text mismatch, source-data ledger, or descriptor range;
-- the finding would change a manuscript conclusion;
-- the finding would require checking original source papers.
-
-Each Conflict Gate case must contain:
+Conflict Gate output must include:
 
 ```json
 {
-  "case_id": "gate_0001",
-  "finding_id": "P0-001",
-  "advocate": {},
-  "skeptic": {},
-  "arbiter": {}
+  "case_id": "CG-001",
+  "finding_id": "F-001",
+  "advocate": "Why the finding is valid and should be fixed.",
+  "skeptic": "Alternative explanation or reason the finding may be overcalled.",
+  "arbiter": "Final decision and recommended action.",
+  "final_severity": "P0"
 }
 ```
 
-## Materials descriptor audit rules
+## Style rules
 
-The Descriptor Database Agent must look for chemical/materials fields using aliases, not exact column names only. Core descriptors include BET, d002, ID/IG, XPS N/O, pore volume, mass loading, electrode thickness, compacted density, ICE, capacity, capacitance, and current density.
-
-Values outside soft physical ranges are not automatically corrected. They must be flagged for manual verification.
-
-## Severity policy
-
-- P0: must fix before submission.
-- P1: strongly recommended fix before submission.
-- P2: optional polish or packaging issue.
-
-Never downgrade a P0 just because the correction is inconvenient. If the automated parser may be wrong, keep the issue open with `status: needs_manual_check`.
+- Never fabricate citations, source data, or numerical evidence.
+- Separate database-derived claims, statistical associations, mechanistic hypotheses, and conceptual framing.
+- Prefer conservative wording when n is small, fields are missing, or source data are incomplete.
+- Keep the final report actionable: file, location, problem, evidence, severity, recommended fix.

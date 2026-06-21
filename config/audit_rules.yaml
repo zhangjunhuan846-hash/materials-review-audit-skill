@@ -1,0 +1,65 @@
+severity:
+  P0: "must fix before submission"
+  P1: "strongly recommended revision"
+  P2: "optional polish or transparency note"
+
+required_outputs:
+  - audit_report.md
+  - audit_findings.csv
+  - claim_ledger.csv
+  - claims_to_downgrade.csv
+  - source_data_ledger.csv
+  - missing_files.csv
+  - descriptor_coverage_audit.csv
+  - descriptor_warnings.csv
+  - figure_text_mismatch.csv
+  - conflict_gate_cases.csv
+
+materials_descriptors:
+  BET:
+    synonyms: ["BET", "SBET", "specific surface area", "surface area", "SSA"]
+    range: [0, 5000]
+    unit_hint: "m2 g-1"
+  d002:
+    synonyms: ["d002", "d_002", "interlayer spacing", "layer spacing"]
+    range_angstrom: [3.0, 5.0]
+    range_nm: [0.30, 0.50]
+  ID_IG:
+    synonyms: ["ID/IG", "I_D/I_G", "Raman ID/IG", "D/G"]
+    range: [0, 5]
+  XPS_N:
+    synonyms: ["N", "N content", "XPS N", "N at%", "N wt%"]
+    range: [0, 50]
+  XPS_O:
+    synonyms: ["O", "O content", "XPS O", "O at%", "O wt%"]
+    range: [0, 60]
+  total_pore_volume:
+    synonyms: ["total pore volume", "pore volume", "Vtotal", "V_total"]
+    range: [0, 10]
+  micropore_volume:
+    synonyms: ["micropore volume", "Vmicro", "V_micro"]
+    range: [0, 5]
+  mass_loading:
+    synonyms: ["mass loading", "loading", "areal loading"]
+    range: [0, 100]
+  electrode_thickness:
+    synonyms: ["electrode thickness", "thickness"]
+    range: [0, 2000]
+  compacted_density:
+    synonyms: ["compacted density", "tap density", "electrode density", "density"]
+    range: [0, 5]
+  ICE:
+    synonyms: ["ICE", "initial coulombic efficiency", "first-cycle coulombic efficiency"]
+    range: [0, 100]
+  capacity:
+    synonyms: ["capacity", "reversible capacity", "specific capacity"]
+    range: [0, 3000]
+  capacitance:
+    synonyms: ["capacitance", "specific capacitance"]
+    range: [0, 2000]
+  current_density:
+    synonyms: ["current density", "specific current", "A g-1"]
+    range: [0, 200]
+  voltage_window:
+    synonyms: ["voltage window", "potential window", "voltage range"]
+    range: [0, 5]

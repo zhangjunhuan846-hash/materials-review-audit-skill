@@ -1,0 +1,35 @@
+[
+  {
+    "figure_id": "Fig.3",
+    "title": "Descriptor coverage across LIB, SIB, and aqueous SC",
+    "figure_type": "heatmap",
+    "quantitative": true,
+    "source_data_required": true,
+    "expected_source_files": [
+      "fig3_descriptor_coverage.csv"
+    ],
+    "manual_visual_qa": true
+  },
+  {
+    "figure_id": "Fig.7",
+    "title": "Descriptor-performance Spearman correlation heatmap",
+    "figure_type": "correlation_heatmap",
+    "quantitative": true,
+    "source_data_required": true,
+    "expected_source_files": [
+      "fig7_spearman_heatmap.csv"
+    ],
+    "manual_visual_qa": true
+  },
+  {
+    "figure_id": "Fig.9",
+    "title": "Electrode engineering parameter missingness heatmap",
+    "figure_type": "heatmap",
+    "quantitative": true,
+    "source_data_required": true,
+    "expected_source_files": [
+      "fig9_missingness.csv"
+    ],
+    "manual_visual_qa": true
+  }
+]

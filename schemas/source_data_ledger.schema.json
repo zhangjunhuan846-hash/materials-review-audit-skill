@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SourceDataLedger",
+  "type": "object",
+  "required": [
+    "figures",
+    "missing_files",
+    "orphan_files"
+  ],
+  "properties": {
+    "figures": {
+      "type": "array"
+    },
+    "missing_files": {
+      "type": "array"
+    },
+    "orphan_files": {
+      "type": "array"
+    }
+  }
+}

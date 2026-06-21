@@ -1,0 +1,5 @@
+sample_id,system,BET,d002,ID/IG,XPS_N,XPS_O,total_pore_volume,mass_loading,ICE,capacity,capacitance,current_density
+SIB-001,SIB,823,0.384,1.12,3.2,7.1,0.41,1.2,68,310,,0.05
+SIB-002,SIB,12300,0.389,1.05,2.8,6.5,0.38,1.1,105,295,,0.05
+SC-001,aqueous SC,1540,3.78,0.98,4.2,10.1,0.88,2.5,, ,286,1
+LIB-001,LIB,612,0.361,1.20,1.0,5.0,0.32,1.4,71,412,,0.1
