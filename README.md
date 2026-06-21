@@ -337,6 +337,7 @@ SC_records,154,0,count,Final sample-level records for aqueous SC
 outputs/demo_audit/
 ├── audit_report.md                  # 投稿准备度报告
 ├── audit_findings.csv               # 全部 P0/P1/P2 发现
+├── audit_manifest.json              # 运行版本、输出清单和严重等级统计
 ├── claim_ledger.csv                 # 主张账本
 ├── claims_to_downgrade.csv          # 建议降级表达的 claim
 ├── source_data_ledger.csv           # 图表-source data 对应关系
@@ -451,6 +452,18 @@ case_studies/biomass_carbon_review_demo/
 
 ---
 
+## v1.2.0 优化要点
+
+- 清理打包产物，默认不再把 `outputs/`、`__pycache__/`、`.pytest_cache/` 放进发布 zip；
+- 修复 `src/` 布局下本地 `pytest` 导入失败问题；
+- 将版本统一为 `1.2.0`，并增加 `materials-review-audit --version`；
+- 支持 `figures_manifest.json` 为纯列表或 `{\"figures\": [...]}` 两种格式；
+- 增强描述符字段识别，支持 `BET (m²/g)`、`Specific capacity (mAh/g)`、`Initial Coulombic Efficiency (%)` 等带单位字段；
+- 新增 `audit_manifest.json`，记录版本、输出文件、严重等级统计和类别统计；
+- 空输出表也保留稳定表头，便于后续脚本继续读取。
+
+---
+
 ## Roadmap
 
 - [ ] 增加 `.docx` 段落级定位和批注导出；
@@ -460,6 +473,12 @@ case_studies/biomass_carbon_review_demo/
 - [ ] 增加 PRISMA / descriptor heatmap 专用审计模板；
 - [ ] 增加 HTML submission-readiness dashboard；
 - [ ] 增加真实材料综述脱敏 case study。
+
+---
+
+## Changelog
+
+See `CHANGELOG.md` for versioned changes.
 
 ---
 

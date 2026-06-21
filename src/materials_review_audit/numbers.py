@@ -7,6 +7,7 @@ from typing import Any
 from .utils import read_csv_rows, safe_float, write_csv, write_json
 
 NUMBER_RE = re.compile(r"(?P<label>LIB|SIB|SC|aqueous\s+SC|sample|record|records|n)\D{0,40}(?P<value>\d+(?:\.\d+)?)", re.I)
+NUMBER_FIELDS = ["number_id", "paragraph_id", "section", "label_hint", "value", "context"]
 
 
 def build_number_ledger(selected_context: dict[str, Any], reference_numbers_path: str | Path | None, out_dir: str | Path, state_dir: str | Path) -> dict[str, Any]:
@@ -33,5 +34,5 @@ def build_number_ledger(selected_context: dict[str, Any], reference_numbers_path
             fid += 1
     packet = {"numbers": rows, "reference_numbers": refs, "findings": findings}
     write_json(Path(state_dir) / "02_number_ledger.json", packet)
-    write_csv(Path(out_dir) / "number_ledger.csv", rows)
+    write_csv(Path(out_dir) / "number_ledger.csv", rows, NUMBER_FIELDS)
     return packet

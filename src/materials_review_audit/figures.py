@@ -12,6 +12,7 @@ POS = re.compile(r"(positive|positively|increase|increases|increased|higher|impr
 NEG = re.compile(r"(negative|negatively|decrease|decreases|decreased|lower|reduce|reduced|suppress|suppressed|负相关|降低|减少|抑制)", re.I)
 STRONG = re.compile(r"(significant|significantly|markedly|clearly|obvious|substantial|显著|明显)", re.I)
 DESCRIPTORS = ["BET", "d002", "ID/IG", "ICE", "capacity", "capacitance", "N", "O", "pore volume", "mass loading"]
+MISMATCH_FIELDS = ["mismatch_id", "severity", "claim_id", "figure_id", "source_file", "descriptor", "target", "text_direction", "data_direction", "rho", "claim_text", "message"]
 
 
 def detect_text_direction(text: str) -> str:
@@ -107,5 +108,5 @@ def audit_figure_text(claim_ledger: dict[str, Any], source_ledger: dict[str, Any
                 mid += 1
     packet = {"direction_evidence": evidence, "mismatches": mismatches, "findings": findings}
     write_json(Path(state_dir) / "06_figure_text_audit.json", packet)
-    write_csv(Path(out_dir) / "figure_text_mismatch.csv", mismatches)
+    write_csv(Path(out_dir) / "figure_text_mismatch.csv", mismatches, MISMATCH_FIELDS)
     return packet

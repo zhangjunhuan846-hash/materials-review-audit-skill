@@ -15,6 +15,8 @@ TREND_HINTS = re.compile(r"(positive|negative|correlat|trend|association|rho|spe
 CITATION_HINTS = re.compile(r"(\[[0-9,\-–\s]+\]|\([A-Z][A-Za-z]+\s+et\s+al\.,?\s+\d{4}\))")
 SOURCE_HINTS = re.compile(r"(Fig(?:ure)?\.?\s*\d+|Table\s*\d+|source data|database|Fig\.)", flags=re.I)
 LOW_N_HINTS = re.compile(r"\bn\s*[=<]\s*(\d+)\b", flags=re.I)
+CLAIM_FIELDS = ["claim_id", "paragraph_id", "section", "claim_text", "needs_citation", "needs_source_data", "causal_overclaim", "trend_or_association_claim", "low_n_caution", "severity", "reasons", "recommended_action"]
+FINDING_FIELDS = ["finding_id", "severity", "category", "message", "location", "evidence", "recommended_action"]
 
 
 def build_claim_ledger(selected_context: dict[str, Any], out_dir: str | Path, state_dir: str | Path) -> dict[str, Any]:
@@ -76,8 +78,8 @@ def build_claim_ledger(selected_context: dict[str, Any], out_dir: str | Path, st
             cid += 1
     packet = {"claims": claims, "findings": finding_rows}
     write_json(Path(state_dir) / "03_claim_ledger.json", packet)
-    write_csv(Path(out_dir) / "claim_ledger.csv", claims)
-    write_csv(Path(out_dir) / "claims_to_downgrade.csv", [c for c in claims if c.get("causal_overclaim") or c.get("needs_source_data")])
+    write_csv(Path(out_dir) / "claim_ledger.csv", claims, CLAIM_FIELDS)
+    write_csv(Path(out_dir) / "claims_to_downgrade.csv", [c for c in claims if c.get("causal_overclaim") or c.get("needs_source_data")], CLAIM_FIELDS)
     return packet
 
 

@@ -90,6 +90,7 @@ figure_text_mismatch.csv
 conflict_gate_cases.csv
 missing_files.csv
 audit_findings.csv
+audit_manifest.json
 ```
 
 If evidence is insufficient, say so. Do not invent source data, citations, or database values.

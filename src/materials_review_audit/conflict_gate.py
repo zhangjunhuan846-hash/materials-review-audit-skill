@@ -5,6 +5,8 @@ from typing import Any
 
 from .utils import write_csv, write_json
 
+CASE_FIELDS = ["case_id", "finding_id", "initial_severity", "category", "advocate", "skeptic", "arbiter", "final_severity", "recommended_action"]
+
 
 def build_conflict_gate(findings: list[dict[str, Any]], out_dir: str | Path, state_dir: str | Path) -> dict[str, Any]:
     high = [f for f in findings if f.get("severity") in {"P0", "P1"}]
@@ -26,7 +28,7 @@ def build_conflict_gate(findings: list[dict[str, Any]], out_dir: str | Path, sta
         cases.append(case)
     packet = {"cases": cases}
     write_json(Path(state_dir) / "07_conflict_gate.json", packet)
-    write_csv(Path(out_dir) / "conflict_gate_cases.csv", cases)
+    write_csv(Path(out_dir) / "conflict_gate_cases.csv", cases, CASE_FIELDS)
     return packet
 
 

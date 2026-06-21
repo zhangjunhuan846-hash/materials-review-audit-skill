@@ -6,6 +6,8 @@ from typing import Any
 from .utils import list_files, write_csv, write_json
 
 QUANT_TYPES = {"heatmap", "correlation_heatmap", "bar", "line", "scatter", "database_plot", "statistical_plot", "box", "violin"}
+LEDGER_FIELDS = ["figure_id", "title", "figure_type", "quantitative", "source_data_required", "expected_source_files", "missing_source_files", "manual_visual_qa", "status", "severity"]
+MISSING_FIELDS = ["figure_id", "title", "figure_type", "quantitative", "source_data_required", "expected_source_files", "missing_source_files", "manual_visual_qa", "status", "severity", "source_file", "message"]
 
 
 def build_source_data_ledger(figures: list[dict[str, Any]], source_data_dir: str | Path | None, out_dir: str | Path, state_dir: str | Path) -> dict[str, Any]:
@@ -74,6 +76,6 @@ def build_source_data_ledger(figures: list[dict[str, Any]], source_data_dir: str
         fid += 1
     packet = {"figures": rows, "missing_files": missing, "orphan_files": orphan_rows, "findings": findings}
     write_json(Path(state_dir) / "04_source_data_ledger.json", packet)
-    write_csv(Path(out_dir) / "source_data_ledger.csv", rows)
-    write_csv(Path(out_dir) / "missing_files.csv", missing + orphan_rows)
+    write_csv(Path(out_dir) / "source_data_ledger.csv", rows, LEDGER_FIELDS)
+    write_csv(Path(out_dir) / "missing_files.csv", missing + orphan_rows, MISSING_FIELDS)
     return packet

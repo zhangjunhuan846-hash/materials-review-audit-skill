@@ -6,3 +6,8 @@ outputs/
 *.egg-info/
 .pytest_cache/
 .DS_Store
+.coverage
+htmlcov/
+dist/
+build/
+*.log

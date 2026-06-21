@@ -161,6 +161,7 @@ python -m materials_review_audit.cli audit \
 outputs/demo_audit/
 ├── audit_report.md
 ├── audit_findings.csv
+├── audit_manifest.json
 ├── claim_ledger.csv
 ├── claims_to_downgrade.csv
 ├── source_data_ledger.csv

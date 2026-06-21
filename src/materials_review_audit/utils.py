@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import math
 import re
 from pathlib import Path
 from typing import Any, Iterable
@@ -104,7 +105,8 @@ def safe_float(x: Any) -> float | None:
     if x is None:
         return None
     if isinstance(x, (int, float)):
-        return float(x)
+        value = float(x)
+        return None if math.isnan(value) else value
     s = str(x).strip()
     if not s or s.lower() in {"nan", "none", "na", "n/a", "-"}:
         return None
